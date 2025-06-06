@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Swal from "sweetalert2";
 
 //Función para devolver todos los alumnos, se va a procesar para divirlos en activos e inactivos
 export const getAllAlumnos = async () => {
@@ -17,21 +18,20 @@ export const getAllAlumnos = async () => {
             }
         );
 
-        if(data.resultado_tipo === "success"){
+        if (data.resultado_tipo === "success") {
 
             let listAlumno = data.datos;
-            
+
             //uso de map para cambiar el estado de true o false a activo o inactivo
             //Recorrer cada objeto y cambiar el estado
             //Se usa un map, un esparcir de datos del objeto y luego un if ternario 
             listAlumno = listAlumno.map(
-                alumno =>
-                {
+                alumno => {
                     return {
                         //esparcir datos = ...
                         ...alumno,
                         //función ternaria = hago pregunta ? si es verdadero se muestra este dato : sino se muestre este otro
-                        Estado : alumno.Estado ? "activo" : "inactivo"
+                        Estado: alumno.Estado ? "activo" : "inactivo"
                     }
                 }
             );
@@ -42,39 +42,68 @@ export const getAllAlumnos = async () => {
             //Uno con los datos de los alumnos activos y otro con los inactivos
             //acc resultado de la información procesada que se especifico en el segundo argumento del reduce
             const alumnosActivosInactivos = listAlumno.reduce(
-                (acc, alumno) =>
-                {
-                    if(alumno.Estado === "activo"){
+                (acc, alumno) => {
+                    if (alumno.Estado === "activo") {
                         acc.activos.push(alumno);
                     }
-                    else if(alumno.Estado === "inactivo"){
+                    else if (alumno.Estado === "inactivo") {
                         acc.inactivos.push(alumno);
                     }
 
                     return acc;
                 }
-                
+
                 ,
                 {
-                    activos : [],
-                    inactivos : []
+                    activos: [],
+                    inactivos: []
                 }
             );
 
             return alumnosActivosInactivos;
 
         }
-        else if (data.resultado_tipo === "warning"){
+        else if (data.resultado_tipo === "warning") {
+
+            Swal.fire(
+                {
+                    icon: 'info',
+                    title: "Para su información",
+                    text: data.respuesta_detalle
+                }
+            );
+
+            return false;
 
         }
-        else if (data.resultado_tipo === "error"){
-            
+        else if (data.resultado_tipo === "error") {
+
+            Swal.fire(
+                {
+                    icon: 'info',
+                    title: "Para su información",
+                    text: data.respuesta_detalle
+                }
+            );
+
+            return false;
+
         }
 
-        
-   
+
+
 
     } catch (error) {
+
+         Swal.fire(
+                {
+                    icon: 'info',
+                    title: "Para su información",
+                    text: error.message
+                }
+            );
+
+            return false;
 
     }
 
