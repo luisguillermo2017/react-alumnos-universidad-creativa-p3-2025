@@ -1,0 +1,12 @@
+/*
+Mas adelante, en  este mismo archivo, se programaran los diferentes ambientes para:
+Producción, QA, Desarrollo Local, Desarrollo en Servidores
+Por ahora solamente estarán las rutas
+*/
+
+ export const rutas_endpoint = {
+
+    //Listar todos los alumnos
+    getAllAlumnos: "http://localhost:3001/api/alumnos/listarTodos",
+
+}

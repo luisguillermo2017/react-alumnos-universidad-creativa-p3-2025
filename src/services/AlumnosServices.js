@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Swal from "sweetalert2";
+import { rutas_endpoint } from '../ambientes/RutasEndpoinst';
 
 //Función para devolver todos los alumnos, se va a procesar para divirlos en activos e inactivos
 export const getAllAlumnos = async () => {
@@ -10,7 +11,7 @@ export const getAllAlumnos = async () => {
         //(tambien se pueden enviar otros datos por el header)
 
         const { data } = await axios.get(
-            "http://localhost:3001/api/alumnos/listarTodos",
+            rutas_endpoint.getAllAlumnos,
             {},
             {
                 'Content-Type': 'applicacion/json',
