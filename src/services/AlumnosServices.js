@@ -96,15 +96,108 @@ export const getAllAlumnos = async () => {
 
     } catch (error) {
 
-         Swal.fire(
+        Swal.fire(
+            {
+                icon: 'info',
+                title: "Para su información",
+                text: error.message
+            }
+        );
+
+        return false;
+
+    }
+
+}
+
+
+export const createAlumno = async (
+    {
+        nombre,
+        apellidos,
+        fechaNacimiento,
+        email,
+        telefono,
+        direccion,
+        estado
+    }
+) => {
+
+    try {
+
+        const { data } = await axios.post(
+            rutas_endpoint.createAlumno,
+            {
+                //nombre : nombre,
+                nombre,
+                apellidos,
+                fechaNacimiento,
+                email,
+                telefono,
+                direccion,
+                estado
+            },
+            {
+                'Content-Type': 'applicacion/json',
+                //'pais' : 'CR'
+            }
+        );
+
+        //debugger
+
+        if (data.resultado_tipo === "success") {
+
+            Swal.fire(
                 {
                     icon: 'info',
                     title: "Para su información",
-                    text: error.message
+                    text: data.respuesta_detalle
+                }
+            );
+
+            return true;
+
+
+        }
+        else if (data.resultado_tipo === "warning") {
+
+            Swal.fire(
+                {
+                    icon: 'info',
+                    title: "Para su información",
+                    text: data.respuesta_detalle
                 }
             );
 
             return false;
+
+        }
+        else if (data.resultado_tipo === "error") {
+
+            Swal.fire(
+                {
+                    icon: 'info',
+                    title: "Para su información",
+                    text: data.respuesta_detalle
+                }
+            );
+
+            return false;
+
+        }
+
+
+    } catch (error) {
+
+        Swal.fire(
+            {
+                icon: 'info',
+                title: "Para su información",
+                text: error.message
+            }
+        );
+
+        return false;
 
     }
 
