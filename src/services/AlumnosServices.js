@@ -202,3 +202,77 @@ export const createAlumno = async (
     }
 
 }
+
+
+//Delete logico para inactiva un alumno
+export const deleteLogicoAlumno = async (idRecibido, estado) => {
+
+    try {
+
+        const id = Number(idRecibido);
+
+        //axios requiere url, parametros y el header con tipo de formato de los parametros enviados(tambien se pueden enviar otros datos) 
+        const { data } = await axios.post(
+            rutas_endpoint.delete_Logico_O_Fisico_Alumno,
+            {
+                //id: id
+                id,
+                estado
+            },
+            {
+                'Content-Type' : 'applicacion/json',
+                //'pais' : 'CR'
+            }
+            
+        );
+
+        //debugger
+
+        if(data.resultado_tipo === "success"){
+
+            Swal.fire({
+                icon: 'info',
+                title: "Para su información",
+                text: data.respuesta_detalle
+            });
+
+            return true;
+
+        }
+        else if(data.resultado_tipo === "warning"){
+
+            Swal.fire({
+                icon: 'info',
+                title: "Para su información",
+                text: data.respuesta_detalle
+            });
+
+            return false;
+
+        }
+        else if(data.resultado_tipo === "error"){
+
+            Swal.fire({
+                icon: 'info',
+                title: "Para su información",
+                text: data.respuesta_detalle
+            })
+
+            return false;
+
+        }
+
+        
+    } catch (error) {
+
+        Swal.fire({
+            icon : 'info',
+            title: 'Para su información',
+            text: error.message
+        })
+
+        return false;
+        
+    }
+
+}

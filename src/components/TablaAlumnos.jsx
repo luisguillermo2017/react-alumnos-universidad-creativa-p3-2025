@@ -4,7 +4,8 @@ import Tabs from 'react-bootstrap/Tabs';
 import { Grid } from 'gridjs-react';
 import { h } from 'gridjs';
 import "gridjs/dist/theme/mermaid.css";
-import { getAllAlumnos } from "../services/AlumnosServices";
+import Swal from 'sweetalert2';
+import { getAllAlumnos, deleteLogicoAlumno } from "../services/AlumnosServices";
 
 export default function TablaAlumnos() {
 
@@ -21,6 +22,73 @@ export default function TablaAlumnos() {
 
 
     //debugger
+
+  }
+
+  const actualizarAlumno = async () => {
+
+
+  }
+
+  const inactivarAlumno = async (id) => {
+
+    Swal.fire({
+      title: "Estás seguro de inactivar este alumno?",
+      text: "Esta acción puede ser reversada.",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, inactivalo."
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        accionInactivar(id);
+
+      }
+    });
+
+  }
+
+
+  const accionInactivar = async (id) => {
+
+    const result = await deleteLogicoAlumno(id, 0);
+
+    if(result){
+      getInitialData();
+    }
+
+  }
+
+  const activarAlumno = async (id) => {
+
+    Swal.fire({
+      title: "Estás seguro de activar este alumno?",
+      text: "Esta acción puede ser reversada.",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, activalo."
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        accionActivar(id);
+
+      }
+    });
+
+  }
+
+
+  const accionActivar = async (id) => {
+
+    const result = await deleteLogicoAlumno(id, 1);
+
+    if(result){
+      getInitialData();
+    }
 
   }
 
@@ -52,14 +120,38 @@ export default function TablaAlumnos() {
               [
                 //posicion 0
                 { id: 'AlumnoID', name: 'Id ' },
+                //posicion 1
                 { id: 'Nombre', name: 'Nombre' },
                 { id: 'Apellido', name: 'Apellidos' },
                 { id: 'FechaNacimiento', name: 'Nacimiento' },
                 { id: 'Email', name: 'Email' },
                 { id: 'Telefono', name: 'Telefono' },
                 { id: 'Direccion', name: 'Direccion' },
-                { id: 'FechaRegistro', name: 'FechaRegistro' },
-                { id: 'Estado', name: 'Estado' },
+                //{ id: 'FechaRegistro', name: 'FechaRegistro' },
+                //{ id: 'Estado', name: 'Estado' },
+                {
+                  name: 'Editar',
+                  formatter: (cell, row) => {
+                    return h('Button', {
+                      className: 'py-2 mb-4 px-4 border rounded-md text-white btn btn-warning bg-blue-600',
+                      onClick: () => actualizarAlumno(`${row.cells[0].data}`)
+                    }, 'Seleccionar');
+                  }
+                },
+                {
+                  name: 'Inactivar',
+                  formatter: (cell, row) => {
+                    return h(
+                      'Button',
+                      {
+                        className: 'py-2 mb-4 px-4 border rounded-md text-white btn btn-danger bg-blue-600',
+                        onClick: () => inactivarAlumno(`${row.cells[0].data}`)
+                      },
+                      'Seleccionar'
+                    )
+                  }
+
+                }
               ]
             }
             sort={true}
@@ -104,7 +196,7 @@ export default function TablaAlumnos() {
           eventKey="TablaInactiva"
           title="Lista de alumnos inactivos"
         >
-         <Grid
+          <Grid
             data={datosAlumnos.inactivos || []}
             columns={
               [
@@ -116,8 +208,22 @@ export default function TablaAlumnos() {
                 { id: 'Email', name: 'Email' },
                 { id: 'Telefono', name: 'Telefono' },
                 { id: 'Direccion', name: 'Direccion' },
-                { id: 'FechaRegistro', name: 'FechaRegistro' },
-                { id: 'Estado', name: 'Estado' },
+                //{ id: 'FechaRegistro', name: 'FechaRegistro' },
+                //{ id: 'Estado', name: 'Estado' },
+                {
+                  name: 'Activar',
+                  formatter: (cell, row) => {
+                    return h(
+                      'Button',
+                      {
+                        className: 'py-2 mb-4 px-4 border rounded-md text-white btn btn-success bg-blue-600',
+                        onClick: () => activarAlumno(`${row.cells[0].data}`)
+                      },
+                      'Seleccionar'
+                    )
+                  }
+
+                }
               ]
             }
             sort={true}

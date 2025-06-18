@@ -11,4 +11,6 @@ Por ahora solamente estarán las rutas
     //Listar todos los alumnos
     getAllAlumnos: "http://localhost:3001/api/alumnos/listarTodos",
 
+    //Activar o inactivar un alumno
+    delete_Logico_O_Fisico_Alumno: "http://localhost:3001/api/alumnos/activarOinactivar",
 }
