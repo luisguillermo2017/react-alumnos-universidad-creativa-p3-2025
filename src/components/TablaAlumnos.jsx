@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { Grid } from 'gridjs-react';
 import { h } from 'gridjs';
 import "gridjs/dist/theme/mermaid.css";
 import Swal from 'sweetalert2';
-import { getAllAlumnos, deleteLogicoAlumno } from "../services/AlumnosServices";
+import { getAllAlumnos, deleteLogicoAlumno, getAlumnoById } from "../services/AlumnosServices";
+import { setAlumno } from '../store';
 
 export default function TablaAlumnos() {
+
+  const dispatch = useDispatch();
 
   const [datosAlumnos, setDatosAlumnos] = useState([]);
 
@@ -25,7 +29,17 @@ export default function TablaAlumnos() {
 
   }
 
-  const actualizarAlumno = async () => {
+  const actualizarAlumno = async (id) => {
+
+    const result = await getAlumnoById(id);
+
+    if(result){
+
+      //se guarda la información en Redux
+      dispatch(setAlumno(result));
+      //Se redirección a la pagina de editar
+
+    }
 
 
   }
