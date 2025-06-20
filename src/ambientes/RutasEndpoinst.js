@@ -6,6 +6,8 @@ Por ahora solamente estarán las rutas
 
  export const rutas_endpoint = {
 
+    getAlumnoById : "http://localhost:3001/api/alumnos/listarPorId/",
+
     createAlumno : "http://localhost:3001/api/alumnos/insertar",
 
     //Listar todos los alumnos

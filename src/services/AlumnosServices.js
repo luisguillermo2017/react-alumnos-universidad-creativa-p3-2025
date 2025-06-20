@@ -276,3 +276,64 @@ export const deleteLogicoAlumno = async (idRecibido, estado) => {
     }
 
 }
+
+
+export const getAlumnoById = async (id_alumno) => {
+
+    try {
+
+        //axios requiere url, parametros y el header con tipo de formato de los parametros enviados(tambien se pueden enviar otros datos) 
+        const { data } = await axios.get(
+            rutas_endpoint.getAlumnoById + id_alumno,
+            {},
+            {
+                'Content-Type' : 'applicacion/json',
+                //'pais' : 'CR'
+            }
+        );
+
+        //debugger
+
+        if(data.resultado_tipo === "success"){
+
+            return data.datos;
+
+        }
+        else if(data.resultado_tipo === "warning"){
+
+            Swal.fire({
+                icon: 'info',
+                title: "Para su información",
+                text: data.respuesta_detalle
+            });
+
+            return false;
+
+        }
+        else if(data.resultado_tipo === "error"){
+
+            Swal.fire({
+                icon: 'info',
+                title: "Para su información",
+                text: data.respuesta_detalle
+            })
+
+            return false;
+
+        }
+
+        
+    } catch (error) {
+
+        Swal.fire({
+            icon : 'info',
+            title: 'Para su información',
+            text: error.message
+        })
+
+        return false;
+        
+    }
+
+}
+
