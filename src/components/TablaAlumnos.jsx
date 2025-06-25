@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { Grid } from 'gridjs-react';
@@ -10,6 +11,8 @@ import { getAllAlumnos, deleteLogicoAlumno, getAlumnoById } from "../services/Al
 import { setAlumno } from '../store';
 
 export default function TablaAlumnos() {
+
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -37,8 +40,8 @@ export default function TablaAlumnos() {
 
       //se guarda la información en Redux
       dispatch(setAlumno(result));
-      //Se redirección a la pagina de editar
-
+      //Se redirecciona a la pagina de editar
+       navigate('/editarAlumno');
     }
 
 
