@@ -15,4 +15,9 @@ Por ahora solamente estarán las rutas
 
     //Activar o inactivar un alumno
     delete_Logico_O_Fisico_Alumno: "http://localhost:3001/api/alumnos/activarOinactivar",
+
+    //Actualizar un alumno
+    update_Alumno: "http://localhost:3001/api/alumnos/actualizacionTotal/"
+
+
 }

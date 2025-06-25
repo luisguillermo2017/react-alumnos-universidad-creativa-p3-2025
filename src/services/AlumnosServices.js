@@ -337,3 +337,97 @@ export const getAlumnoById = async (id_alumno) => {
 
 }
 
+
+export const updateAlumno = async (
+    {
+        nombre,
+        apellidos,
+        fechaNacimiento,
+        email,
+        telefono,
+        direccion,
+        estado,
+        id
+    }
+) => {
+
+    try {
+
+        const { data } = await axios.put(
+            rutas_endpoint.update_Alumno + id,
+            {
+                //nombre : nombre,
+                nombre,
+                apellidos,
+                fechaNacimiento,
+                email,
+                telefono,
+                direccion,
+                estado
+            },
+            {
+                'Content-Type': 'applicacion/json',
+                //'pais' : 'CR'
+            }
+        );
+
+        //debugger
+
+        if (data.resultado_tipo === "success") {
+
+            Swal.fire(
+                {
+                    icon: 'info',
+                    title: "Para su información",
+                    text: data.respuesta_detalle
+                }
+            );
+
+            return true;
+
+
+        }
+        else if (data.resultado_tipo === "warning") {
+
+            Swal.fire(
+                {
+                    icon: 'info',
+                    title: "Para su información",
+                    text: data.respuesta_detalle
+                }
+            );
+
+            return false;
+
+        }
+        else if (data.resultado_tipo === "error") {
+
+            Swal.fire(
+                {
+                    icon: 'info',
+                    title: "Para su información",
+                    text: data.respuesta_detalle
+                }
+            );
+
+            return false;
+
+        }
+
+
+    } catch (error) {
+
+        Swal.fire(
+            {
+                icon: 'info',
+                title: "Para su información",
+                text: error.message
+            }
+        );
+
+        return false;
+
+    }
+
+}
+

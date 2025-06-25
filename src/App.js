@@ -3,6 +3,7 @@ import './App.css';
 import ListaAlumnos from './views/ListaAlumnos';
 import CrearAlumno from './views/CrearAlumno';
 import Error404 from './views/Error404';
+import EditarAlumno from './views/EditarAlumno';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path='/' element={  <ListaAlumnos /> } ></Route>
           <Route path='/crearAlumno' element={  <CrearAlumno /> } ></Route>
+          <Route path='/editarAlumno' element={  <EditarAlumno /> } ></Route>
           <Route path='/*' element={  <Error404 /> } ></Route>
         </Routes>
 
