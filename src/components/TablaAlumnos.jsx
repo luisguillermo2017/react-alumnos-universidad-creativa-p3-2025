@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -8,9 +8,12 @@ import { h } from 'gridjs';
 import "gridjs/dist/theme/mermaid.css";
 import Swal from 'sweetalert2';
 import { getAllAlumnos, deleteLogicoAlumno, getAlumnoById } from "../services/AlumnosServices";
-import { setAlumno } from '../store';
+import { setAlumno, setEstadoConsultaApiActivo, setEstadoConsultaApiInactivo } from '../store';
+import SpinnerApi from './SpinnerApi';
 
 export default function TablaAlumnos() {
+
+  const estadoConsultaApi = useSelector((state) => state.datosSpinnerRedux.estadoConsultaApi);
 
   const navigate = useNavigate();
 
@@ -20,12 +23,17 @@ export default function TablaAlumnos() {
 
   const getInitialData = async () => {
 
+    //Se activa el spinner
+    dispatch(setEstadoConsultaApiActivo());
+
     const result = await getAllAlumnos();
 
     if (result) {
       setDatosAlumnos(result);
     }
 
+    //Se desactiva el spinner
+    dispatch(setEstadoConsultaApiInactivo());
 
 
     //debugger
@@ -36,12 +44,12 @@ export default function TablaAlumnos() {
 
     const result = await getAlumnoById(id);
 
-    if(result){
+    if (result) {
 
       //se guarda la información en Redux
       dispatch(setAlumno(result));
       //Se redirecciona a la pagina de editar
-       navigate('/editarAlumno');
+      navigate('/editarAlumno');
     }
 
 
@@ -72,7 +80,7 @@ export default function TablaAlumnos() {
 
     const result = await deleteLogicoAlumno(id, 0);
 
-    if(result){
+    if (result) {
       getInitialData();
     }
 
@@ -103,7 +111,7 @@ export default function TablaAlumnos() {
 
     const result = await deleteLogicoAlumno(id, 1);
 
-    if(result){
+    if (result) {
       getInitialData();
     }
 
@@ -115,6 +123,28 @@ export default function TablaAlumnos() {
     },
     []
   )
+
+  if (estadoConsultaApi) {
+
+    return (
+
+      <div className='d-flex justify-content-center align-items-center vh-100'>
+        <SpinnerApi
+          titulo='Procesando'
+          subtitulo1='alumnos'
+          subtitulo2='información'
+          subtitulo3='listado'
+          subtitulo4='datos'
+          subtitulo5='tablas'
+        />
+      </div>
+
+
+    )
+
+
+  }
+
 
 
   return (

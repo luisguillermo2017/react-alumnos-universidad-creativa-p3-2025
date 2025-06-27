@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import Titulo from '../components/Titulo'
 import TablaAlumnos from '../components/TablaAlumnos';
+import SpinnerApi from '../components/SpinnerApi';
 
 
 export default function ListaAlumnos() {
@@ -18,6 +19,7 @@ export default function ListaAlumnos() {
       </center>
 
       <TablaAlumnos />
+
 
 
     </>
