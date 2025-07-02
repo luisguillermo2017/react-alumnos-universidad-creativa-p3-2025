@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button, Form } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { createAlumno, updateAlumno } from '../services/AlumnosServices';
+import { setEstadoConsultaApiActivo, setEstadoConsultaApiInactivo, setAlumno } from '../store';
+import SpinnerApi from './SpinnerApi';
 
 export default function FormularioEditarAlumno() {
 
+    //Se precargan datos de redux
     const alumnoPorEditar = useSelector((state) => state.datosAlumnoRedux.alumno[0]);
+    const estadoConsultaApi = useSelector((state) => state.datosSpinnerRedux.estadoConsultaApi);
 
-    //debugger
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
@@ -102,6 +106,9 @@ export default function FormularioEditarAlumno() {
         }
         else {
 
+            //Activar Spinner
+            dispatch(setEstadoConsultaApiActivo());
+
             const idRecibido = Number(alumnoPorEditar.AlumnoID);
 
             //Se envian los datos del formulario al servicio
@@ -116,7 +123,14 @@ export default function FormularioEditarAlumno() {
                 id: idRecibido
             });
 
+            //Inactivar Spinner
+            dispatch(setEstadoConsultaApiInactivo());
+
             if (result) {
+
+                //se limpia la información en Redux para el alumno
+                dispatch(setAlumno([]));
+
                 navigate('/');
             }
 
@@ -125,24 +139,53 @@ export default function FormularioEditarAlumno() {
 
     const initialData = () => {
 
-        setNombre(alumnoPorEditar.Nombre);
-        setApellidos(alumnoPorEditar.Apellido);
+        //debugger
 
-        const fechaFormateada = new Date(alumnoPorEditar.FechaNacimiento).toISOString().split('T')[0];
+        if (!alumnoPorEditar) {
+            navigate('/');
+        }
+        else {
+            setNombre(alumnoPorEditar.Nombre);
+            setApellidos(alumnoPorEditar.Apellido);
 
-        setFechaNacimiento(fechaFormateada);
-        setEmail(alumnoPorEditar.Email);
-        setTelefono(alumnoPorEditar.Telefono);
-        setDireccion(alumnoPorEditar.Direccion);
+            const fechaFormateada = new Date(alumnoPorEditar.FechaNacimiento).toISOString().split('T')[0];
+
+            setFechaNacimiento(fechaFormateada);
+            setEmail(alumnoPorEditar.Email);
+            setTelefono(alumnoPorEditar.Telefono);
+            setDireccion(alumnoPorEditar.Direccion);
+        }
+
+
 
     }
 
     useEffect(
         () => {
-           initialData();
+            initialData();
         }
-    , [])
-    
+        , [])
+
+    if (estadoConsultaApi) {
+
+        return (
+
+            <div className='d-flex justify-content-center align-items-center vh-100'>
+                <SpinnerApi
+                    titulo='Actualizando'
+                    subtitulo1='alumno'
+                    subtitulo2='información'
+                    subtitulo3='un registro'
+                    subtitulo4='alumno'
+                    subtitulo5='información'
+                />
+            </div>
+
+
+        )
+
+
+    }
 
 
     return (

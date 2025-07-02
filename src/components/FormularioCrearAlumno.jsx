@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { createAlumno } from '../services/AlumnosServices';
+import { setEstadoConsultaApiInactivo, setEstadoConsultaApiActivo } from '../store';
+import SpinnerApi from './SpinnerApi';
 
 export default function FormularioCrearAlumno() {
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+
+    const estadoConsultaApi = useSelector((state) => state.datosSpinnerRedux.estadoConsultaApi);
 
     const [nombre, setNombre] = useState('');
     const [apellidos, setApellidos] = useState('');
@@ -97,6 +104,9 @@ export default function FormularioCrearAlumno() {
         }
         else {
 
+            //Activo el spinner
+            dispatch(setEstadoConsultaApiActivo());
+
             //Se envian los datos del formulario al servicio
             const result = await createAlumno({
                 nombre,
@@ -105,17 +115,40 @@ export default function FormularioCrearAlumno() {
                 email,
                 telefono,
                 direccion,
-                estado : true
+                estado: true
             });
 
-            if(result){
+            //Desactivar el spinner
+            dispatch(setEstadoConsultaApiInactivo());
+
+
+            if (result) {
                 navigate('/');
             }
 
         }
     }
 
+    if (estadoConsultaApi) {
 
+        return (
+
+            <div className='d-flex justify-content-center align-items-center vh-100'>
+                <SpinnerApi
+                    titulo='Creando'
+                    subtitulo1='alumno'
+                    subtitulo2='información'
+                    subtitulo3='un registro'
+                    subtitulo4='alumno'
+                    subtitulo5='información'
+                />
+            </div>
+
+
+        )
+
+
+    }
 
 
     return (
