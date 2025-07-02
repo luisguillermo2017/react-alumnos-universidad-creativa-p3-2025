@@ -32,6 +32,9 @@ export default function TablaAlumnos() {
       setDatosAlumnos(result);
     }
 
+    //se limpia la información en Redux para el alumno
+    dispatch(setAlumno([]));
+
     //Se desactiva el spinner
     dispatch(setEstadoConsultaApiInactivo());
 
@@ -42,7 +45,13 @@ export default function TablaAlumnos() {
 
   const actualizarAlumno = async (id) => {
 
+    //Activar el spinner
+    dispatch(setEstadoConsultaApiActivo());
+
     const result = await getAlumnoById(id);
+
+    //Desactivar el spinner
+    dispatch(setEstadoConsultaApiInactivo());
 
     if (result) {
 
@@ -78,7 +87,13 @@ export default function TablaAlumnos() {
 
   const accionInactivar = async (id) => {
 
+    //Activar Spinner
+    dispatch(setEstadoConsultaApiActivo());
+
     const result = await deleteLogicoAlumno(id, 0);
+
+    //Desactivar Spinner
+    dispatch(setEstadoConsultaApiInactivo());
 
     if (result) {
       getInitialData();
@@ -109,7 +124,13 @@ export default function TablaAlumnos() {
 
   const accionActivar = async (id) => {
 
+    //Activar Spinner
+    dispatch(setEstadoConsultaApiActivo());
+
     const result = await deleteLogicoAlumno(id, 1);
+
+    //Desactivar Spinner
+    dispatch(setEstadoConsultaApiInactivo());
 
     if (result) {
       getInitialData();
