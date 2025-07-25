@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { createAlumno } from '../services/AlumnosServices';
@@ -155,91 +155,146 @@ export default function FormularioCrearAlumno() {
 
         <>
 
-            <Form onSubmit={guardar}>
+            <Container>
 
-                <Form.Group className='mb-3'>
+                <Form onSubmit={guardar}>
 
-                    <Form.Label>Nombre:</Form.Label>
-                    <Form.Control
-                        type='text'
-                        placeholder='Ingresa tu nombre'
-                        value={nombre}
-                        onChange={onChangeNombre}
-                    />
+                    {/* Fila 1 */}
+                    <Row>
 
-                </Form.Group>
+                        <Col md={4}>
 
-                <Form.Group className='mb-3'>
+                            <Form.Group className='mb-3'>
 
-                    <Form.Label>Apellidos:</Form.Label>
-                    <Form.Control
-                        type='text'
-                        placeholder='Ingresa tus apellidos'
-                        value={apellidos}
-                        onChange={onChangeApellidos}
-                    />
+                                <Form.Label>Nombre:</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder='Ingresa tu nombre'
+                                    value={nombre}
+                                    onChange={onChangeNombre}
+                                />
 
-                </Form.Group>
+                            </Form.Group>
 
-                <Form.Group className='mb-3'>
+                        </Col>
 
-                    <Form.Label>Fecha de nacimiento:</Form.Label>
-                    <Form.Control
-                        type='date'
-                        placeholder='Ingresa tu fecha de nacimiento'
-                        value={fechaNacimiento}
-                        onChange={onChangeFechaNacimiento}
-                    />
+                        <Col md={4}>
 
-                </Form.Group>
+                            <Form.Group className='mb-3'>
 
-                <Form.Group className='mb-3'>
+                                <Form.Label>Apellidos:</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder='Ingresa tus apellidos'
+                                    value={apellidos}
+                                    onChange={onChangeApellidos}
+                                />
 
-                    <Form.Label>Email:</Form.Label>
-                    <Form.Control
-                        type='email'
-                        placeholder='Ingresa tu email'
-                        value={email}
-                        onChange={onChangeEmail}
-                    />
+                            </Form.Group>
 
-                </Form.Group>
+                        </Col>
 
-                <Form.Group className='mb-3'>
+                        <Col md={4}>
 
-                    <Form.Label>Telefono:</Form.Label>
-                    <Form.Control
-                        type='text'
-                        placeholder='Ingresa tu telefono'
-                        value={telefono}
-                        onChange={onChangeTelefono}
-                    />
+                            <Form.Group className='mb-3'>
 
-                </Form.Group>
+                                <Form.Label>Fecha de nacimiento:</Form.Label>
+                                <Form.Control
+                                    type='date'
+                                    placeholder='Ingresa tu fecha de nacimiento'
+                                    value={fechaNacimiento}
+                                    onChange={onChangeFechaNacimiento}
+                                />
 
-                <Form.Group className='mb-3'>
+                            </Form.Group>
 
-                    <Form.Label>Dirección:</Form.Label>
-                    <Form.Control
-                        as="textarea"
-                        rows={3}
-                        placeholder='Ingresa tu dirección'
-                        value={direccion}
-                        onChange={onChangeDireccion}
-                    />
+                        </Col>
 
-                </Form.Group>
+                    </Row>
 
-                <p className='mt-4'>
-                    <Button type='submit'>Guardar</Button>
-                </p>
+                    {/* Fila 2 */}
+                    <Row>
 
+                        <Col md={4}>
 
-                <p>
-                    <Button variant='danger' as={Link} to='/'>Cancelar</Button>
-                </p>
+                            <Form.Group className='mb-3'>
 
-            </Form>
+                                <Form.Label>Email:</Form.Label>
+                                <Form.Control
+                                    type='email'
+                                    placeholder='Ingresa tu email'
+                                    value={email}
+                                    onChange={onChangeEmail}
+                                />
+
+                            </Form.Group>
+
+                        </Col>
+
+                        <Col md={4}>
+
+                            <Form.Group className='mb-3'>
+
+                                <Form.Label>Telefono:</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder='Ingresa tu telefono'
+                                    value={telefono}
+                                    onChange={onChangeTelefono}
+                                />
+
+                            </Form.Group>
+
+                        </Col>
+
+                        <Col md={4}>
+
+                        </Col>
+
+                    </Row>
+
+                    {/* Fila 3 */}
+                    <Row>
+
+                        <Col md={12}>
+
+                            <Form.Group className='mb-3'>
+
+                                <Form.Label>Dirección:</Form.Label>
+                                <Form.Control
+                                    as="textarea"
+                                    rows={3}
+                                    placeholder='Ingresa tu dirección'
+                                    value={direccion}
+                                    onChange={onChangeDireccion}
+                                />
+
+                            </Form.Group>
+
+                        </Col>
+
+                    </Row>
+
+                    {/* Fila 4 */}
+                    <Row className='mt-4'>
+
+                        <Col md={10}>
+                        
+                        </Col>
+
+                        <Col md={1}>
+                            <Button type='submit'>Guardar</Button>
+                        </Col>
+
+                        <Col md={1}>
+                            <Button variant='danger' as={Link} to='/'>Cancelar</Button>
+                        </Col>
+
+                    </Row>
+
+                </Form>
+
+            </Container>
 
         </>
 
