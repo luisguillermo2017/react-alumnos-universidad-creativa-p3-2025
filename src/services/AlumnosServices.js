@@ -32,7 +32,8 @@ export const getAllAlumnos = async () => {
                         //esparcir datos = ...
                         ...alumno,
                         //función ternaria = hago pregunta ? si es verdadero se muestra este dato : sino se muestre este otro
-                        Estado: alumno.Estado ? "activo" : "inactivo"
+                        Estado: alumno.Estado ? "activo" : "inactivo",
+                        FechaNacimiento: new Date(alumno.FechaNacimiento).toISOString().split('T')[0]
                     }
                 }
             );
